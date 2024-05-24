@@ -1,4 +1,6 @@
-import 'package:athangtodo/screen/PlantLanding.dart';
+// import 'package:athangtodo/screen/Places.dart';
+import 'package:athangtodo/screen/Travel/Intro.travel.dart';
+// import 'package:athangtodo/screen/PlantLanding.dart';
 // import 'package:athangtodo/screen/Aurorahome.dart';
 // import 'package:athangtodo/screen/Gfit.dart';
 // import 'package:athangtodo/screen/Lotion.dart';
@@ -14,15 +16,18 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: PlantLanding(),
+      // home: PlantLanding(),
       // home: Aurorahome(),
       // home: Gfit(),
       // home: Lotion(),
+      // home: Places(),
+      home: IntroTravel(),
     );
   }
 }
