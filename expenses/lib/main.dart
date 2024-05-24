@@ -1,4 +1,4 @@
-import 'package:expenses/screens/auth/login_screen.dart';
+import 'package:athang_expense_tracker/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -19,7 +19,7 @@ class MyApp extends StatelessWidget {
         useMaterial3: true,
       ),
 
-      home: LoginScreen(),
+      home: SplashScreen(),
 
       // initialRoute: '/',
 
