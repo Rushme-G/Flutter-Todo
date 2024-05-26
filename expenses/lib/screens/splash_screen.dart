@@ -1,6 +1,6 @@
-import 'package:athang_expense_tracker/base/style/text_styles.dart';
-import 'package:athang_expense_tracker/screens/auth/login_screen.dart';
-import 'package:athang_expense_tracker/screens/landing/home_screen.dart';
+import 'package:expenses/base/style/text_styles.dart';
+import 'package:expenses/screens/auth/login_screen.dart';
+import 'package:expenses/screens/landing/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 

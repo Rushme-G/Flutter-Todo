@@ -37,13 +37,12 @@ class MovieModel {
         'genres': List<dynamic> genres,
       } =>
         MovieModel(
-          title: title,
           id: id,
-          // img: background_image,
+          title: title,
           description: summary,
+          rating: rating,
           runtime: runtime,
           year: year,
-          rating: rating,
           genres: genres.map((v) => v.toString()).toList(),
         ),
       _ => throw const FormatException('Format not supported.'),

@@ -1,10 +1,7 @@
-import 'dart:convert';
-
+import 'package:expenses/domin/auth/auth_model.dart';
+import 'package:expenses/domin/auth/auth_repo.dart';
+import 'package:expenses/hoc/home_layout.dart';
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
-import 'package:shared_preferences/shared_preferences.dart';
-
-import '../landing/home_screen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -14,36 +11,38 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   TextEditingController _username = TextEditingController();
   TextEditingController _password = TextEditingController();
+  FocusNode passwordFocusNode = FocusNode();
+  bool loading = false;
+
   final _formKey = GlobalKey<FormState>();
 
   Future<void> loginUser() async {
     try {
-      final res = await http.post(
-        Uri.parse('http://10.254.251.126:3030/authentication'),
-        headers: <String, String>{
-          'Content-Type': 'application/json; charset=UTF-8',
-        },
-        body: jsonEncode(<String, String>{
-          // 'username': _username.text,
-          'username': 'admin@expense.com',
-          // 'password': _password.text
-          'password': 'admin'
-        }),
-      );
-      print(jsonDecode(res.body)['data']);
-      final SharedPreferences prefs = await SharedPreferences.getInstance();
-      await prefs.setString(
-          '_TOKEN', jsonDecode(res.body)['data']['accessToken']);
-      Navigator.of(context)
-          .pushReplacement(MaterialPageRoute(builder: (_) => HomeScreen()));
+      if (_formKey.currentState!.validate()) {
+        setState(() {
+          loading = true;
+        });
+        final res = await AuthRepo().loginWithEmailAndPassword(
+            AuthModel(username: _username.text, password: _password.text));
+
+        Navigator.of(context)
+            .pushReplacement(MaterialPageRoute(builder: (_) => HomeLayout()));
+      }
     } catch (e) {
-      print(e);
+      ScaffoldMessenger.of(context)
+          .showSnackBar(SnackBar(content: Text(e.toString())));
     }
+
+    setState(() {
+      loading = false;
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      // the keyboard will overlay on the screen
+      resizeToAvoidBottomInset: false,
       body: Form(
         key: _formKey,
         child: Container(
@@ -60,12 +59,16 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Image.asset('assets/images/logo.png',
                             height: 100, fit: BoxFit.contain)),
                     TextFormField(
+                      autofocus: true,
                       controller: _username,
+                      onEditingComplete: () {
+                        passwordFocusNode.requestFocus();
+                      },
                       decoration: InputDecoration(
-                          border: OutlineInputBorder(), labelText: 'Username'),
+                          border: OutlineInputBorder(), labelText: 'Email'),
                       validator: (value) {
                         if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
+                          return 'Please enter your email';
                         }
                         return null;
                       },
@@ -73,7 +76,11 @@ class _LoginScreenState extends State<LoginScreen> {
                     Padding(
                       padding: EdgeInsets.symmetric(vertical: 16),
                       child: TextFormField(
+                        onEditingComplete: loginUser,
                         controller: _password,
+                        // association of focus node with password
+                        focusNode: passwordFocusNode,
+                        autofocus: true,
                         obscureText: true,
                         decoration: const InputDecoration(
                             border: OutlineInputBorder(),
@@ -104,10 +111,28 @@ class _LoginScreenState extends State<LoginScreen> {
                             borderRadius: BorderRadius.circular(8),
                           ),
                         ),
-                        onPressed: () {
-                          loginUser();
-                        },
-                        child: Text('Login'),
+                        // null on pressed parameter will disable the button
+                        onPressed: loading ? null : loginUser,
+                        // onPressed: null,
+                        child: Container(
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Container(
+                                child: Text('Login'),
+                                margin: EdgeInsets.symmetric(horizontal: 12),
+                              ),
+                              if (loading)
+                                Container(
+                                  height: 24,
+                                  width: 24,
+                                  child: CircularProgressIndicator(
+                                    color: Colors.white,
+                                  ),
+                                )
+                            ],
+                          ),
+                        ),
                       ),
                     ),
                     Container(
@@ -134,93 +159,3 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 }
-
-
-
-
-
-
-
-
-// // import 'package:athangtodo2/widgets/Task/LoginForm.dart';
-// import 'package:expenses/widgets/auth/login_form.dart';
-// import 'package:flutter/material.dart';
-
-// class LoginScreen extends StatefulWidget {
-//   @override
-//   State<LoginScreen> createState() => _LoginScreenState();
-// }
-
-// class _LoginScreenState extends State<LoginScreen> {
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: Container(
-//         height: MediaQuery.of(context).size.height,
-//         child: Stack(
-//           children: [
-//             Align(
-//               alignment: Alignment.topCenter,
-//               child: Container(
-//                 width: double.infinity,
-//                 // color: const Color.fromARGB(255, 10, 36, 81),
-//                 height: MediaQuery.of(context).size.height * .55,
-//               ),
-//             ),
-//             Container(
-//               height: double.infinity,
-//               width: double.infinity,
-//               padding: EdgeInsets.symmetric(horizontal: 36),
-//               alignment: Alignment.center,
-//               child: Column(
-//                 mainAxisAlignment: MainAxisAlignment.center,
-//                 children: [
-//                   Container(
-//                     margin: EdgeInsets.only(bottom: 16),
-//                     child: Column(
-//                       children: [
-//                         // Container(
-//                         //   child: Image.asset(
-//                         //     'assets/login_logo.jpg',
-//                         //     width: 200,
-//                         //     height: 200,
-//                         //   ),
-//                         // )
-//                         // Text('Get Started',
-//                         //     style: TextStyle(
-//                         //         color: Colors.white,
-//                         //         fontSize: 36,
-//                         //         fontWeight: FontWeight.bold)),
-//                         // Text('Enter details to login',
-//                         //     style: TextStyle(
-//                         //         color: Colors.white,
-//                         //         fontSize: 24,
-//                         //         fontWeight: FontWeight.bold)),
-//                       ],
-//                     ),
-//                   ),
-//                   Container(
-//                     height: 350,
-//                     padding: EdgeInsets.all(16),
-//                     width: double.infinity,
-//                     decoration: BoxDecoration(
-//                         color: Colors.white,
-//                         borderRadius: BorderRadius.circular(16),
-//                         boxShadow: [
-//                           BoxShadow(
-//                               color: Colors.black12,
-//                               blurRadius: 8,
-//                               spreadRadius: 4,
-//                               blurStyle: BlurStyle.normal)
-//                         ]),
-//                     child: Loginform(),
-//                   )
-//                 ],
-//               ),
-//             )
-//           ],
-//         ),
-//       ),
-//     );
-//   }
-// }
