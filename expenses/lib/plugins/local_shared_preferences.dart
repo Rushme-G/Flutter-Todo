@@ -1,23 +1,25 @@
+
 import 'package:shared_preferences/shared_preferences.dart';
 
-Future<String> getTokenFromLocalStorage() async {
+Future<String> getTokenFromLocalStorage() async{
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   final token = await prefs.getString('_TOKEN');
   return token ?? '';
   // return token != null ? token : '';
 }
 
-Future<void> setTokenToLocalStorage(String token) async {
+Future<void> setTokenToLocalStorage(String token) async{
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString('_TOKEN', token);
 }
 
-Future<void> setTokenToBlank() async {
+Future<void> setTokenToBlank() async{
   final SharedPreferences prefs = await SharedPreferences.getInstance();
   await prefs.setString('_TOKEN', '');
 }
 
 class LocalStorage {
+
   Future<SharedPreferences>? futureShared;
   static SharedPreferences? _prefs;
 
@@ -29,31 +31,12 @@ class LocalStorage {
     });
   }
 
-  Future<void> setTokenToLocalStorage(String token) async {
+  Future<void> setTokenToLocalStorage(String token) async{
     await prefs?.setString('_TOKEN', token);
   }
 
-  Future<void> setTokenToBlank() async {
+
+  Future<void> setTokenToBlank() async{
     await prefs?.setString('_TOKEN', '');
   }
 }
-
-
-
-
-
-
-
-
-
-// Future<String> getTokenFromLocalStorage() async {
-//   final SharedPreferences prefs = await SharedPreferences.getInstance();
-//   final token = await prefs.getString('_TOKEN');
-//   return token ?? '';
-//   // return token != null ? token : '';
-// }
-
-// Future<void> setTokenToLocalStorage(String token) async {
-//   final SharedPreferences prefs = await SharedPreferences.getInstance();
-//   await prefs.setString('_TOKEN', token);
-// }

@@ -7,7 +7,8 @@ Future GetRequest(url) async {
   Map<String, String> headers = {
     'Authorization': 'Bearer ${await getTokenFromLocalStorage()}'
   };
-  return http.get(Uri.parse(BaseConfig().baseUrl + url), headers: headers);
+  return http
+      .get(Uri.parse(BaseConfig().baseUrl + url), headers: headers);
 }
 
 Future PostRequest(url, body) async {
@@ -16,22 +17,6 @@ Future PostRequest(url, body) async {
     'Authorization': 'Bearer ${await getTokenFromLocalStorage()}'
   };
   return await http.post(Uri.parse(BaseConfig().baseUrl + url),
-      headers: headers, body: jsonEncode(body));
+      headers: headers,
+      body: jsonEncode(body));
 }
-
-
-
-
-
-
-// Future GetRequest(url) async {
-//   return http.get(Uri.parse(BaseConfig().baseUrl + url));
-// }
-
-// Future PostRequest(url, body) async {
-//   return await http.post(Uri.parse(url),
-//       headers: <String, String>{
-//         'Content-Type': 'application/json; charset=UTF-8',
-//       },
-//       body: jsonEncode(body));
-// }

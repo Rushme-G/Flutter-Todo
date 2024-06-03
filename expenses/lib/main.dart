@@ -1,11 +1,17 @@
-import 'package:expenses/plugins/local_shared_preferences.dart';
+import 'package:expenses/firebase_options.dart';
+import 'package:expenses/plugins/firebase_api.dart';
+import 'package:expenses/plugins/local_notifications_service.dart';
 import 'package:expenses/screens/splash_screen.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
 
-void main() {
-  //////=======
-  LocalStorage();
-  //////=======
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await LocalNotification.initialize();
+  // LocalStorage();
+  // LocalNotificationService.initialize();
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
+  await FirebaseApi().initNotifications();
   runApp(const MyApp());
 }
 
@@ -16,23 +22,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-
       home: SplashScreen(),
-
-      // initialRoute: '/',
-
-      // routes: {
-      //   '/': (context) => Logintask(),
-      //   // '/HomeTask': (context) => HomeTask(),
-      //   '/HomeTask': (context) => HomeTask(),
-      //   // '/home': (context) => Addtask(),
-      // },
+      // home: HomeLayout(),
+      // home: TempScreen(),
     );
   }
 }

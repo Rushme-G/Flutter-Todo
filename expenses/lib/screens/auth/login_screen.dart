@@ -1,7 +1,10 @@
-import 'package:expenses/domin/auth/auth_model.dart';
-import 'package:expenses/domin/auth/auth_repo.dart';
+import 'package:expenses/domain/auth/auth_model.dart';
+import 'package:expenses/domain/auth/auth_repo.dart';
 import 'package:expenses/hoc/home_layout.dart';
 import 'package:flutter/material.dart';
+
+
+
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -18,16 +21,17 @@ class _LoginScreenState extends State<LoginScreen> {
 
   Future<void> loginUser() async {
     try {
-      if (_formKey.currentState!.validate()) {
-        setState(() {
-          loading = true;
-        });
-        final res = await AuthRepo().loginWithEmailAndPassword(
-            AuthModel(username: _username.text, password: _password.text));
+     if(_formKey.currentState!.validate()){
 
-        Navigator.of(context)
-            .pushReplacement(MaterialPageRoute(builder: (_) => HomeLayout()));
-      }
+       setState(() {
+         loading = true;
+       });
+       final res = await AuthRepo().loginWithEmailAndPassword(
+           AuthModel(username: _username.text, password: _password.text));
+
+       Navigator.of(context)
+           .pushReplacement(MaterialPageRoute(builder: (_) => HomeLayout()));
+     }
     } catch (e) {
       ScaffoldMessenger.of(context)
           .showSnackBar(SnackBar(content: Text(e.toString())));
@@ -124,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               ),
                               if (loading)
                                 Container(
-                                  height: 24,
+                                  height:24,
                                   width: 24,
                                   child: CircularProgressIndicator(
                                     color: Colors.white,
