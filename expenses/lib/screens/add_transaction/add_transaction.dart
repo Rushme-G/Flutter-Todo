@@ -42,6 +42,8 @@ class _AddTranscationState extends State<AddTranscation> {
     return Scaffold(
         appBar: AppBar(
           title: Text('Add Transaction'),
+          backgroundColor: Colors.deepOrangeAccent,
+          elevation: 10,
         ),
         body: Container(
             child: Column(

@@ -29,7 +29,28 @@ class _HomeLayoutState extends State<HomeLayout> {
       appBar: AppBar(
         backgroundColor: Colors.deepOrangeAccent,
         elevation: 10,
-        title: Text(titles[_selectedIndex]),
+        title: Text(
+          titles[_selectedIndex],
+          style: TextStyle(
+              fontSize: 16, color: Colors.white, fontWeight: FontWeight.bold),
+        ),
+        // leading: IconButton(
+        //   icon: Image.asset(
+        //       'assets/images/logo.png'), // Replace 'assets/logo.png' with your logo image path
+        //   onPressed: () {
+        //     // Add your logo tap action here
+        //   },
+        // ),
+        // actions: [
+        //   IconButton(
+        //     icon: ClipRRect(
+        //         borderRadius: BorderRadius.circular(100),
+        //         child: Image.asset('assets/images/profile.jpeg')),
+        //     onPressed: () {
+        //       // Add your logo tap action here
+        //     },
+        //   )
+        // ],
       ),
       body: RefreshIndicator(
         onRefresh: () async {

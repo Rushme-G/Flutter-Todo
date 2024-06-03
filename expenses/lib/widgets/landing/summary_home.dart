@@ -51,12 +51,14 @@ class _SummaryHomeState extends State<SummaryHome> {
                       children: [
                         Text(
                           'Current Balance',
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: 16, color: Colors.white),
                         ),
                         Text(
                           'Nu.' + summary.openingBalance.toString(),
                           style: TextStyle(
-                              fontSize: 18, fontWeight: FontWeight.bold),
+                              fontSize: 18,
+                              fontWeight: FontWeight.bold,
+                              color: Colors.white),
                         ),
                         // Container(color: Colors.red, height: 50),
                       ],
@@ -79,6 +81,7 @@ class _SummaryHomeState extends State<SummaryHome> {
                                     child: Icon(
                                       Icons.arrow_downward,
                                       size: 25,
+                                      color: Colors.green,
                                     ),
                                   ),
                                 ),
@@ -117,8 +120,9 @@ class _SummaryHomeState extends State<SummaryHome> {
                                   width: 60,
                                   child: Center(
                                     child: Icon(
-                                      Icons.arrow_downward,
+                                      Icons.arrow_upward,
                                       size: 25,
+                                      color: Colors.red,
                                     ),
                                   ),
                                 ),
